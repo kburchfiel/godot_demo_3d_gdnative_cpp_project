@@ -16,6 +16,15 @@ godot::Vector3 velocity(0, 0, 0); // Replaces the GDScript var velocity = Vector
 void GD3DExample::_register_methods() {
     register_method("_physics_process", &GD3DExample::_physics_process);
     register_method("_ready", &GD3DExample::_ready);
+    // The following items are based on the register_methods function within:
+    // https://github.com/godotengine/gdnative-demos/blob/master/cpp/dodge_the_creeps/src/player.cpp
+    // These lines allow us to modify the specified properties within the Godot editor itself.
+    godot::register_property("speed", &GD3DExample::speed, (real_t)5.0);
+    godot::register_property("fall_acceleration", &GD3DExample::fall_acceleration, (real_t)75.0);
+    godot::register_property("jump_impulse", &GD3DExample::jump_impulse, (real_t)40.0);
+
+
+
 }
 // Since my character uses _physics_process to move rather than _process,
 // I changed _process to _physics_process here.

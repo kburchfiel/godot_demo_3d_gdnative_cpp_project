@@ -12,6 +12,7 @@ material = SubResource( 2 )
 
 [node name="Player3D" type="Spatial"]
 script = ExtResource( 2 )
+jump_impulse = 80.0
 
 [node name="KinematicBody" type="KinematicBody" parent="."]
 
