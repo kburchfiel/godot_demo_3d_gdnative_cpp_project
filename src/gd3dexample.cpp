@@ -40,14 +40,19 @@ void GD3DExample::_init() {
 //I relpaced the items shown within that code with the items that my player uses (e.g.
 // KinematicBody and CollisionShape)
 void GD3DExample::_ready() {
-    //_kinematic_body = get_node<godot::KinematicBody>("KinematicBody"); // These need
+    _kinematic_body = get_node<godot::KinematicBody>("KinematicBody"); // These need
     // to be named after actual Godot classes rather than what you have named those items.
     // e.g. use 'KinematicBody' here instead of 'Player,' even if your KinematicBody object
     // is named 'Player.'
     // These items need to be declared within your corresponding .h file; otherwise, you 
     // will get an 'undeclared identifier' error.
-    _collision_shape = get_node<godot::CollisionShape>("CollisionShape");
+    _collision_shape = _kinematic_body->get_node<godot::CollisionShape>("CollisionShape");
+    //The above line is based on kidscancode's response at 
+    // https://godotengine.org/qa/61592/accessing-a-child-node-from-an-instanced-scene .
+    // Because the CollisionShape node is contained within _kinematic_body, we can't call
+    // it directly; instead, we have to call it from within _kinematic_body.
     _input = godot::Input::get_singleton();
+
 }
 
 
@@ -63,7 +68,7 @@ void GD3DExample::_physics_process(float delta) {
     // tutorial.
     // Godot::print("Test point 4");
 
-    godot:Vector3 direction(0, 0, 0);
+    godot::Vector3 direction(0, 0, 0);
         // Replaces var direction = Vector3.ZERO
     // The following two lines come directly from the movement
     // code shown at:
@@ -72,29 +77,48 @@ void GD3DExample::_physics_process(float delta) {
     // 3D Game tutorial's GDScript defines velocity as the product
     // of the 'direction' and 'speed' variables.
     //Godot::print("Test point 5");
+
+
     direction.x = _input->get_action_strength("move_right") - _input->get_action_strength("move_left");
     direction.z = _input->get_action_strength("move_back") - _input->get_action_strength("move_forward");
-    // Changed from direction.y to direction.z since y refers to vertical movement rather than 
+    // changed from direction.y to direction.z since y refers to vertical movement rather than 
     // forward/back movement.
 
-    // godot::Vector3 position = get_position(); # Probably not needed 
+    // godot::vector3 position = get_position(); # probably not needed 
     // here because we're using move_and_slide
 
     if (direction.length() > 0) {
-        Godot::print("Test point 6");
+        // Godot::print("test point 6");
         direction = direction.normalized() * speed;
     }
 
-    Godot::print("Test point 7");
+    // Godot::print("test point 7");
     velocity.x = direction.x * speed;
     velocity.z = direction.z * speed;
-    Godot::print("Test point 7.5");
+    // Godot::print("test point 7.5");
     velocity.y -= fall_acceleration * delta;
-    // Vector3.UP corresponds to a vector of (0, 1, 0). See 
+    // vector3.up corresponds to a vector of (0, 1, 0). see 
     // https://docs.godotengine.org/en/stable/classes/class_vector3.html
-    Godot::print("Test point 8");
-    velocity = move_and_slide(velocity, Vector3(0,1,0));
-    //// I'm guessing that this function applies the velocity to the character,
+    // Godot::print("test point 8");
+
+    // the following if statement is based on the corresponding gdscript
+    // statement seen at:
+    // https://docs.godotengine.org/en/stable/getting_started/first_3d_game/06.jump_and_squash.html
+    
+    //if (_input->is_action_just_pressed("jump")) {
+    //    Godot::print("Player jumped");
+    //        //velocity.y += jump_impulse;
+    //}
+    //
+    
+    
+    if (_kinematic_body->is_on_floor() && _input->is_action_just_pressed("jump")) {
+        Godot::print("Player jumped");
+        velocity.y += jump_impulse;
+    }
+
+    velocity = _kinematic_body->move_and_slide(velocity, godot::Vector3(0,1,0));
+    //// i'm guessing that this function applies the velocity to the character,
     //// even though the character wasn't explicitly mentioned in this function.
 
 
