@@ -2,7 +2,7 @@
 // which can be found at:
 // https://docs.godotengine.org/en/stable/tutorials/scripting/gdnative/gdnative_cpp_example.html
 
-#include "gd3dexample.h"
+#include "player3d.h"
 
 extern "C" void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options * o) {
     godot::Godot::gdnative_init(o);
@@ -15,5 +15,5 @@ extern "C" void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_opt
 extern "C" void GDN_EXPORT godot_nativescript_init(void* handle) {
     godot::Godot::nativescript_init(handle);
 
-    godot::register_class<godot::GD3DExample>();
+    godot::register_class<godot::Player3D>();
 }

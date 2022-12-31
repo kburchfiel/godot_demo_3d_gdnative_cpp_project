@@ -12,7 +12,7 @@ opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x
 opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
 opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
 opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'project/bin/'))
-opts.Add(PathVariable('target_name', 'The library name.', 'libgd3dexample', PathVariable.PathAccept))
+opts.Add(PathVariable('target_name', 'The library name.', 'libplayer3d', PathVariable.PathAccept))
 
 # Local dependency paths, adapt them to your setup
 godot_headers_path = "godot-cpp/godot-headers/"
