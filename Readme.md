@@ -2,9 +2,12 @@
 
 I started this project in order to learn how to create 3D Godot projects using GDNative and C++. At the moment, the project is very simple: it merely shows how to move a cube across a surface using your arrow keys. However, I hope to expand on the project as time allows so that the project can become an actual game.
 
+To quickly see the project in action, download the .exe and .dll files from the project folder. (Currently, these work only on Windows desktops.) More information on compiling the project can be found within the 'Instructions' section.
+
 Note that this project is based on the 3.5 release of Godot. Therefore, it uses GDNative rather than GDExtension. Once Godot 4 has a stable release, I'll plan to create a similar project using GDExtension.
 
-Although it would have been faster to create everything just in GDScript, I found this to be a fun way to apply my C++ knowledge.
+Although it would have been faster to create everything just in GDScript, I found this to be a fun way to practice using C++.
+
 
 # Resources:
 

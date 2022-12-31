@@ -8,5 +8,4 @@ vc140.pdb
 icon.png
 icon.png.import
 *.obj
-project/libgd3dexample.dll
 project/export_presets.cfg
