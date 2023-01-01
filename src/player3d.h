@@ -9,7 +9,7 @@
 #define PLAYER3D_H
 
 #include <Godot.hpp>
-#include <Spatial.hpp> //Located at godot-cpp\include\gen
+//#include <Spatial.hpp> //Located at godot-cpp\include\gen
 #include <KinematicBody.hpp> // This script will be attached to a KinematicBody 
 // entity, so I changed Sprite.hpp to KinematicBody.hpp.
 // I added the following two items based on the code shown in the 'coding the player' 
@@ -23,10 +23,10 @@
 
 namespace godot {
 
-    class Player3D : public Spatial {
-        GODOT_CLASS(Player3D, Spatial)
+    class Player3D : public KinematicBody {
+        GODOT_CLASS(Player3D, KinematicBody)
 
-        godot::KinematicBody* _kinematic_body;
+        // godot::KinematicBody* _kinematic_body;
         godot::Input* _input; // from 'Coding the Player' section of the Your First 2D Game Tutorial
         godot::CollisionShape* _collision_shape; // Also from that section of the tutorial (but with the 2D removed)
         

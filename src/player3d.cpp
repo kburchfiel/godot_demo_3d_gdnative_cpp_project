@@ -46,20 +46,16 @@ void Player3D::_init() {
 
 
 // Player::ready() is based on the ready() code shown in the Your First 2D Game tutorial.
-//I relpaced the items shown within that code with the items that my player uses (e.g.
-// KinematicBody and CollisionShape)
+//I replaced the items shown within that code with the items that my player uses (e.g.
+// KinematicBody and CollisionShape).
 void Player3D::_ready() {
-    _kinematic_body = get_node<godot::KinematicBody>("KinematicBody"); // These need
+    _collision_shape = get_node<godot::CollisionShape>("CollisionShape");
+    // These need
     // to be named after actual Godot classes rather than what you have named those items.
     // e.g. use 'KinematicBody' here instead of 'Player,' even if your KinematicBody object
     // is named 'Player.'
-    // These items need to be declared within your corresponding .h file; otherwise, you 
+    // These items also need to be declared within your corresponding .h file; otherwise, you 
     // will get an 'undeclared identifier' error.
-    _collision_shape = _kinematic_body->get_node<godot::CollisionShape>("CollisionShape");
-    //The above line is based on kidscancode's response at 
-    // https://godotengine.org/qa/61592/accessing-a-child-node-from-an-instanced-scene .
-    // Because the CollisionShape node is contained within _kinematic_body, we can't call
-    // it directly; instead, we have to call it from within _kinematic_body.
     _input = godot::Input::get_singleton();
 
 }
@@ -121,12 +117,12 @@ void Player3D::_physics_process(float delta) {
     //
     
     
-    if (_kinematic_body->is_on_floor() && _input->is_action_just_pressed("jump")) {
+    if (is_on_floor() && _input->is_action_just_pressed("jump")) {
         // Godot::print("Player jumped");
         velocity.y += jump_impulse;
     }
 
-    velocity = _kinematic_body->move_and_slide(velocity, godot::Vector3(0,1,0));
+    velocity = move_and_slide(velocity, godot::Vector3(0,1,0));
     //// i'm guessing that this function applies the velocity to the character,
     //// even though the character wasn't explicitly mentioned in this function.
 
