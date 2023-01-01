@@ -122,14 +122,12 @@ void Player3D::_physics_process(float delta) {
     
     
     if (_kinematic_body->is_on_floor() && _input->is_action_just_pressed("jump")) {
-        Godot::print("Player jumped");
+        // Godot::print("Player jumped");
         velocity.y += jump_impulse;
     }
 
     velocity = _kinematic_body->move_and_slide(velocity, godot::Vector3(0,1,0));
     //// i'm guessing that this function applies the velocity to the character,
     //// even though the character wasn't explicitly mentioned in this function.
-
-
 
     }
