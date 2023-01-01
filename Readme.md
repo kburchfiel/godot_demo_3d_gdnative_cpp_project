@@ -1,6 +1,6 @@
 # Basic GDNative C++ 3D Godot Project
 
-I started this project in order to learn how to create 3D Godot projects using GDNative and C++. At the moment, the project is very simple: it merely shows how to move a cube across a surface using your arrow keys. However, I hope to expand on the project as time allows so that the project can become an actual game.
+I started this project in order to learn how to create 3D Godot projects using GDNative and C++. At the moment, the project is very simple: it merely shows how to move a cube across a surface using your arrow keys and 'jump' using the space bar. However, I hope to expand on the project as time allows so that the project can become an actual game.
 
 To quickly see the project in action, download the .exe and .dll files from the project folder. (Currently, these work only on Windows desktops.) More information on compiling the project can be found within the 'Instructions' section.
 
@@ -49,8 +49,9 @@ I may also create a YouTube video at some point that demonstrates how to success
 
 # Methodology:
 
-My approach was to first create a version of this project using GDScript, then port this code into C++. In order to get the port to work successfully, I relied heavily on the links shown within the 'resources' list. For instance, I could compare the GDScript and GDNative C++ code snippets within the [Your First 2D Game tutorial](https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html) to better understand how to convert 3D GDScript code into equivalent C++ code.
+My initial approach was to first create a version of this project using GDScript, then port this code into C++. In order to get the port to work successfully, I relied heavily on the links shown within the 'resources' list. For instance, I could compare the GDScript and GDNative C++ code snippets within the [Your First 2D Game tutorial](https://docs.godotengine.org/en/stable/getting_started/first_2d_game/index.html) to better understand how to convert 3D GDScript code into equivalent C++ code.
 
+However, once I became more familiar with C++ GDNative programming, I sometimes managed to skip the GDScript step and code directly in C++, using the Godot engine code and Godot documentation (among other resources) as references.
 
 
 

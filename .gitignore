@@ -8,4 +8,7 @@ vc140.pdb
 icon.png
 icon.png.import
 *.obj
+*.import
 project/export_presets.cfg
+project/.import/player_model.glb-7d28f81c8e15d1992e33036669dafafc.md5
+project/.import/player_model.glb-7d28f81c8e15d1992e33036669dafafc.scn

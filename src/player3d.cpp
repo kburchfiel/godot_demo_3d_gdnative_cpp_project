@@ -5,8 +5,6 @@
 // By Kenneth Burchfiel
 // Released under the MIT License
 
-// Use Ctrl + K + C and Ctrl + K + U to comment and uncomment code in Visual Studio, respectively.
-
 #include "player3d.h"
 
 using namespace godot;
@@ -22,6 +20,7 @@ void Player3D::_register_methods() {
     godot::register_property("speed", &Player3D::speed, (real_t)5.0);
     godot::register_property("fall_acceleration", &Player3D::fall_acceleration, (real_t)75.0);
     godot::register_property("jump_impulse", &Player3D::jump_impulse, (real_t)40.0);
+    godot::register_property("player_rotation_speed", &Player3D::player_rotation_speed, (real_t)1.0);
 
 
 
@@ -49,15 +48,17 @@ void Player3D::_init() {
 //I replaced the items shown within that code with the items that my player uses (e.g.
 // KinematicBody and CollisionShape).
 void Player3D::_ready() {
-    _collision_shape = get_node<godot::CollisionShape>("CollisionShape");
-    // These need
-    // to be named after actual Godot classes rather than what you have named those items.
-    // e.g. use 'KinematicBody' here instead of 'Player,' even if your KinematicBody object
-    // is named 'Player.'
-    // These items also need to be declared within your corresponding .h file; otherwise, you 
-    // will get an 'undeclared identifier' error.
-    _input = godot::Input::get_singleton();
 
+// The following items need
+// to be named after actual Godot classes rather than what you have named those items.
+// e.g. use 'KinematicBody' here instead of 'Player,' even if your KinematicBody object
+// is named 'Player.'
+// These items also need to be declared within your corresponding .h file; otherwise, you 
+// will get an 'undeclared identifier' error.
+
+    _collision_shape = get_node<godot::CollisionShape>("CollisionShape");
+    _spatial = get_node<godot::Spatial>("Spatial");
+    _input = godot::Input::get_singleton();
 }
 
 
@@ -73,49 +74,42 @@ void Player3D::_physics_process(float delta) {
     // tutorial.
     // Godot::print("Test point 4");
 
-    godot::Vector3 direction(0, 0, 0);
-        // Replaces var direction = Vector3.ZERO
-    // The following two lines come directly from the movement
-    // code shown at:
-    // https://docs.godotengine.org/en/stable/getting_started/first_2d_game/03.coding_the_player.html
-    // I am using 'direction' instead of 'velocity' because the Your First
-    // 3D Game tutorial's GDScript defines velocity as the product
-    // of the 'direction' and 'speed' variables.
-    //Godot::print("Test point 5");
-
-
-    direction.x = _input->get_action_strength("move_right") - _input->get_action_strength("move_left");
-    direction.z = _input->get_action_strength("move_back") - _input->get_action_strength("move_forward");
+    // In this project, the left/right keys will control the player's rotation whereas the up/down keys will control
+    // the player's movement. See
+    // https://docs.godotengine.org/en/stable/tutorials/2d/2d_movement.html#rotation-movement for a (2D) example.
+    // The following lines are based on the movement code shown at https://docs.godotengine.org/en/stable/getting_started/first_2d_game/03.coding_the_player.html ,
+    // except that I'm using the right and left arrow keys to represent rotation instead of the x axis direction.
+    real_t rotation_amount = _input->get_action_strength("rotate_right") - _input->get_action_strength("rotate_left");
+    // This code was based on the original 
+    real_t player_direction = _input->get_action_strength("move_back") - _input->get_action_strength("move_forward");
     // changed from direction.y to direction.z since y refers to vertical movement rather than 
     // forward/back movement.
 
-    // godot::vector3 position = get_position(); # probably not needed 
-    // here because we're using move_and_slide
+    _spatial->rotate(godot::Vector3(0, 1, 0), rotation_amount * -1 * player_rotation_speed / 10);
+    // See https://github.com/godotengine/godot/blob/3.5/scene/3d/spatial.cpp ,
+    // and https://docs.godotengine.org/en/stable/tutorials/3d/using_transforms.html
 
-    if (direction.length() > 0) {
-        // Godot::print("test point 6");
-        direction = direction.normalized() * speed;
-    }
+    // Note that it's best not to use Godot's rotation property directly--see 
+    // https://docs.godotengine.org/en/3.2/tutorials/3d/using_transforms.html#say-no-to-euler-angles
 
-    // Godot::print("test point 7");
-    velocity.x = direction.x * speed;
-    velocity.z = direction.z * speed;
-    // Godot::print("test point 7.5");
+
+    godot::Transform transform = _spatial->get_transform();
+    // Based on https://github.com/godotengine/godot/blob/3.5/scene/3d/spatial.cpp
+    // and https://docs.godotengine.org/en/3.2/tutorials/3d/using_transforms.html#obtaining-information
+
+    // Since transform.basis.z represents a Vector3 instance, we can set the player's velocity (another Vector3 instance)
+    // by multiplying the player's transform.basis.z by the player's speed, player_direction, and -1. 
+    // (The -1 ensures that the player will move forward rather than backward when the up arrow is pressed.)
+    // This code was based on https://docs.godotengine.org/en/3.2/tutorials/3d/using_transforms.html#obtaining-information
+    velocity = transform.basis.z * speed * player_direction * -1; // 
+
     velocity.y -= fall_acceleration * delta;
     // vector3.up corresponds to a vector of (0, 1, 0). see 
     // https://docs.godotengine.org/en/stable/classes/class_vector3.html
-    // Godot::print("test point 8");
 
     // the following if statement is based on the corresponding gdscript
     // statement seen at:
     // https://docs.godotengine.org/en/stable/getting_started/first_3d_game/06.jump_and_squash.html
-    
-    //if (_input->is_action_just_pressed("jump")) {
-    //    Godot::print("Player jumped");
-    //        //velocity.y += jump_impulse;
-    //}
-    //
-    
     
     if (is_on_floor() && _input->is_action_just_pressed("jump")) {
         // Godot::print("Player jumped");
@@ -123,7 +117,5 @@ void Player3D::_physics_process(float delta) {
     }
 
     velocity = move_and_slide(velocity, godot::Vector3(0,1,0));
-    //// i'm guessing that this function applies the velocity to the character,
-    //// even though the character wasn't explicitly mentioned in this function.
 
     }

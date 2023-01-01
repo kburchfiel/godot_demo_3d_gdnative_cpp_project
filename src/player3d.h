@@ -29,6 +29,7 @@ namespace godot {
         // godot::KinematicBody* _kinematic_body;
         godot::Input* _input; // from 'Coding the Player' section of the Your First 2D Game Tutorial
         godot::CollisionShape* _collision_shape; // Also from that section of the tutorial (but with the 2D removed)
+        godot::Spatial* _spatial;
         
 
 
@@ -36,6 +37,7 @@ namespace godot {
         real_t speed = 5; // Also from the 'Your First 2D Game' tutorial
         real_t fall_acceleration = 75;
         real_t jump_impulse = 40;
+        real_t player_rotation_speed = 1.0;
 
         Player3D(); //These were present in the GDNative tutorial but not in the
         // C++ code shown in the Your First 2D Game tutorial. However, removing them produced an
