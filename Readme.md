@@ -1,6 +1,6 @@
 # Basic GDNative C++ 3D Godot Project
 
-I started this project in order to learn how to create 3D Godot projects using GDNative and C++. At the moment, the project is very simple: it merely shows how to move a cube across a surface using your arrow keys and 'jump' using the space bar. However, I hope to expand on the project as time allows so that the project can become an actual game.
+I started this project in order to learn how to create 3D Godot games using GDNative and C++. At the moment, the project is very simple: it merely shows how to move a cube across a surface using your arrow keys, 'jump' using the space bar, and fire projectiles when the 'E' or 'D' key is pressed. However, I hope to expand on the project as time allows so that it can become an actual game.
 
 To quickly see the project in action, download the .exe and .dll files from the project folder. (Currently, these work only on Windows desktops.) More information on compiling the project can be found within the 'Instructions' section.
 
