@@ -6,6 +6,7 @@
 [sub_resource type="BoxShape" id=1]
 
 [node name="KinematicBody" type="KinematicBody"]
+collision_mask = 4
 script = ExtResource( 1 )
 speed = 20.0
 fall_acceleration = 400.0

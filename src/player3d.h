@@ -17,6 +17,9 @@
 // Link: https://docs.godotengine.org/en/stable/getting_started/first_2d_game/03.coding_the_player.html
 #include <CollisionShape.hpp> // Located at godot-cpp\include\gen
 #include <Input.hpp>
+#include <PackedScene.hpp> // From 
+// https://docs.godotengine.org/en/stable/getting_started/first_2d_game/05.the_main_game_scene.html
+//#include "projectile.h"
 
 
 
@@ -48,6 +51,9 @@ namespace godot {
 
         void _ready(); // From 'Coding the Player' section of Your First 2D Game tutorial.
         // See https://docs.godotengine.org/en/stable/getting_started/first_2d_game/03.coding_the_player.html
+
+        void shoot(); // Based on:
+        // https://docs.godotengine.org/en/3.5/tutorials/physics/using_kinematic_body_2d.html
 
         void _physics_process(float delta); // My project uses _physics_process
         //for the kinematic body, so I replaced _process with _physics_process here.

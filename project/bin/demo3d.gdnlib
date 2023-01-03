@@ -7,9 +7,9 @@ reloadable=true
 
 [entry]
 
-X11.64="res://bin/x11/libplayer3d.so"
-Windows.64="res://bin/win64/libplayer3d.dll"
-OSX.64="res://bin/osx/libplayer3d.dylib"
+X11.64="res://bin/x11/libdemo3d.so"
+Windows.64="res://bin/win64/libdemo3d.dll"
+OSX.64="res://bin/osx/libdemo3d.dylib"
 
 [dependencies]
 

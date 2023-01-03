@@ -1,4 +1,4 @@
-//This code is based on the gdexample.h file 
+//This code is based on the gdexample.cpp file 
 // shown within the Godot GDNative example here:
 // https://docs.godotengine.org/en/stable/tutorials/scripting/gdnative/gdnative_cpp_example.html
 
@@ -21,6 +21,7 @@ void Player3D::_register_methods() {
     godot::register_property("fall_acceleration", &Player3D::fall_acceleration, (real_t)75.0);
     godot::register_property("jump_impulse", &Player3D::jump_impulse, (real_t)40.0);
     godot::register_property("player_rotation_speed", &Player3D::player_rotation_speed, (real_t)1.0);
+    //godot::register_property("projectile_scene", &Player3D::projectile_scene, (godot::Ref<godot::PackedScene>)nullptr);
 
 
 
@@ -62,6 +63,28 @@ void Player3D::_ready() {
 }
 
 
+//void Player3D::shoot() {
+//    // Based on the C++ on_MobTimer_timeout() function
+//    // shown in https://docs.godotengine.org/en/stable/getting_started/first_2d_game/05.the_main_game_scene.html
+//    godot::Node* projectile = projectile_scene->instance();
+//    //godot::KinematicBody* projectile_item = projectile->get_node<godot::KinematicBody>("KinematicBody");
+//
+//    //Projectile projectile = Projectile::new();
+//    // For more information on Spatial.new(),
+//    // See src\gen\Spatial.cpp within the compiled
+//    // version of godot-cpp.
+//    //projectile_item = projectile.get_node<godot::KinematicBody>("KinematicBody");
+//    //godot::Transform projectile_transform = get_transform();
+//    //projectile_item ->set_transform(projectile_transform);
+//
+//    add_child(projectile);
+//    
+//    //godot::Vector3 dir(0, 0, 0);
+//    //godot::Vector3 pos(0, 0, 0);
+//    //projectile->start(pos, dir);
+//
+//}
+
 void Player3D::_physics_process(float delta) {
     // Godot::print("Test point 3");
     // I used both the 'Your First 2D Game' C++ code 
@@ -85,15 +108,22 @@ void Player3D::_physics_process(float delta) {
     // changed from direction.y to direction.z since y refers to vertical movement rather than 
     // forward/back movement.
 
-    _spatial->rotate(godot::Vector3(0, 1, 0), rotation_amount * -1 * player_rotation_speed / 10);
+    rotate(godot::Vector3(0, 1, 0), rotation_amount * -1 * player_rotation_speed / 10);
     // See https://github.com/godotengine/godot/blob/3.5/scene/3d/spatial.cpp ,
     // and https://docs.godotengine.org/en/stable/tutorials/3d/using_transforms.html
 
     // Note that it's best not to use Godot's rotation property directly--see 
     // https://docs.godotengine.org/en/3.2/tutorials/3d/using_transforms.html#say-no-to-euler-angles
 
+    // I changed the above line from spatial-> rotate to rotate so that the rotations would apply
+    // to the whole Player3D object rather than to just the spatial component of the object. This was crucial
+    // for getting my projectile initialization code to work, since it relied on the transform state
+    // of the Player3D class. If the Player3D class's rotation was unmodified, the projectile would 
+    // not have the correct rotation and direction. (See
+    // https://godotforums.org/d/32351-having-trouble-making-an-object-travel-the-way-a-player-is-facing-using-c )
 
-    godot::Transform transform = _spatial->get_transform();
+
+    godot::Transform transform = get_transform();
     // Based on https://github.com/godotengine/godot/blob/3.5/scene/3d/spatial.cpp
     // and https://docs.godotengine.org/en/3.2/tutorials/3d/using_transforms.html#obtaining-information
 
@@ -110,12 +140,12 @@ void Player3D::_physics_process(float delta) {
     // the following if statement is based on the corresponding gdscript
     // statement seen at:
     // https://docs.godotengine.org/en/stable/getting_started/first_3d_game/06.jump_and_squash.html
-    
+
     if (is_on_floor() && _input->is_action_just_pressed("jump")) {
         // Godot::print("Player jumped");
         velocity.y += jump_impulse;
     }
 
-    velocity = move_and_slide(velocity, godot::Vector3(0,1,0));
+    velocity = move_and_slide(velocity, godot::Vector3(0, 1, 0));
 
-    }
+}
