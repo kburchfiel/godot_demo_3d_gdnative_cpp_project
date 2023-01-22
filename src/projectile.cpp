@@ -28,15 +28,15 @@ void Projectile::_ready()
 }
 
 Projectile::Projectile() {
-    Godot::print("Projectile test point 1");
+    //Godot::print("Projectile test point 1");
 }
 
 Projectile::~Projectile() {
-    Godot::print("Projectile test point 2");
+    //Godot::print("Projectile test point 2");
 }
 
 void Projectile::_init() {
-    Godot::print("Projectile init!");
+    //Godot::print("Projectile init!");
 }
 
 	//void Projectile::start(godot::Vector3 pos, godot::Vector3 dir) {

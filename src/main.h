@@ -14,6 +14,7 @@
 
 #include "player3d.h"
 #include "projectile.h"
+#include "enemy3d.h"
 
 
 
@@ -23,13 +24,15 @@ namespace godot {
 		GODOT_CLASS(Main, godot::Node)
 
 		Player3D* _player3d;
+		Enemy3D* _enemy3d;
 		godot::Input* _input;
+
 
 	public:
 		godot::Ref<godot::PackedScene> projectile_scene; // Based on: 
 		// https://docs.godotengine.org/en/stable/getting_started/first_2d_game/05.the_main_game_scene.html
 		// This resource taught me how to link my projectile scene
-		// to my player scene so that the player can generate
+		// to my player scene within the Godot editor so that the player can generate
 		// new projectiles when a button is pressed.
 
 
@@ -44,7 +47,7 @@ namespace godot {
 		void _ready();
 		void _process();
 		void shoot();
-
+		void enemy_shoot();
 		static void _register_methods();
 
 	};

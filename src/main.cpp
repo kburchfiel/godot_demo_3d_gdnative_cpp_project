@@ -1,5 +1,5 @@
 // This code is based on the main.cpp code shown in the GDNative C++ version
-// of the Your First 2D Game project and on some other items, including:
+// of the Your First 2D Game project and on some other items, including
 // the bullet code within the 'Obtaining information' section in the Using
 // 3D Transforms documentation page (link:
 // https://docs.godotengine.org/en/stable/tutorials/3d/using_transforms.html#obtaining-information )
@@ -10,7 +10,8 @@
 //Released under the MIT license
 
 #include "main.h"
-#include "projectile.h"
+// #include "projectile.h"
+// #include "enemy3d.h"
 #include <SceneTree.hpp>
 
 using namespace godot;
@@ -22,6 +23,7 @@ void Main::_register_methods()
 {
     //Godot::print("Main test point 1");
     register_method("shoot", &Main::shoot);
+    //register_method("enemy_shoot", &Main::enemy_shoot);
     //Godot::print("Main test point 1b");
     register_method("_ready", &Main::_ready);
     register_method("_process", &Main::_process);
@@ -32,6 +34,7 @@ void Main::_register_methods()
 
 void Main::_ready() {
     _player3d = get_node<Player3D>("Player3D");
+    _enemy3d = get_node<Enemy3D>("Enemy3D");
     //Godot::print("Main test point 2");
     _input = godot::Input::get_singleton();
 }
@@ -56,7 +59,6 @@ void Main::shoot() {
     //godot::Vector3 player_rotation = _player3d->get_rotation();
     Godot::print("Player transform:");
     Godot::print(player_transform);
-    //player_transform.basis.z is always 0, 0, 1
     godot::Transform projectile_transform = player_transform;
     //projectile_transform.origin.z += 3; 
     // The above line creates some distance in between the projectile and the player.
@@ -82,5 +84,6 @@ void Main::_process() {
     //is_action_just_pressed will only fire one projectile per keypress. See
     // https://docs.godotengine.org/en/stable/classes/class_input.html#class-input-method-is-action-just-pressed
     }
+    //enemy_shoot();
 
 }
