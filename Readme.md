@@ -57,5 +57,8 @@ My initial approach was to first create a version of this project using GDScript
 
 However, once I became more familiar with C++ GDNative programming, I sometimes skipped the GDScript step and coded directly in C++, using the Godot engine code and Godot documentation (among other resources) as references.
 
+[Notes to self]:
+Next, work on having the player get deleted when hit by a projectile. (You can use the enemy's projectile code for this purpose, of course.) You'll need to have the projectile get fired far enough from the player that the player won't get deleted by its own projectile.
+You'll also probably want to move the player's shoot() function into the player.cpp code; once again, use the enemy code as a reference. Remember to create a projectile_scene property and then link your Projectile.tscn file to it; otherwise, the game will crash.
 
 
