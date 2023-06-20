@@ -1,14 +1,18 @@
-# Basic GDNative C++ 3D Godot Project
+# Godot C++ 3D Demo Project (Using Godot 3.5 and GDNative)
 
-![](https://raw.githubusercontent.com/kburchfiel/godot_demo_3d_gdnative_cpp_project/master/project_images/deleting_enemy.gif)
+![](https://raw.githubusercontent.com/kburchfiel/godot_demo_3d_gdnative_cpp_project/master/project_images/winning_game.gif)
 
-I started this project in order to learn how to create 3D Godot games using GDNative and C++. At the moment, the project is very simple: it shows how to move a cube across a surface using your arrow keys, 'jump' using the space bar, and fire projectiles when the 'E' or 'D' key is pressed. It also shows how to delete an enemy when that enemy is hit by the player. However, I hope to expand on the project as time allows so that it can become an actual game.
+![](https://raw.githubusercontent.com/kburchfiel/godot_demo_3d_gdnative_cpp_project/master/project_images/losing_game.gif)
+
+I created this project in order to learn how to develop 3D Godot games using GDNative and C++. I hope that you will find the project helpful in designing your own Godot C++ games.
+
+The game itself is very simple: The cube that you control must shoot another cube that is trying to shoot it. You can move with the arrow keys, 'jump' with the space bar, and fire projectiles by pressing 'E' or 'D'. There's no formal 'New Game' or 'Game Over' screen, but you can launch a new game simply by closing the window and restarting the .exe file.
 
 To quickly see the project in action, download the .exe and .dll files from the project folder. (Currently, these work only on Windows desktops.) More information on compiling the project can be found within the 'Instructions' section.
 
 Note that this project is based on the 3.5 release of Godot, as a stable release of Godot 4.0 was not yet available. Therefore, it uses GDNative rather than GDExtension. I may create a similar project using GDExtension in the future.
 
-Although it would have been faster to create everything just in GDScript, I found this to be a fun way to practice using C++.
+Although it would have been faster to create this game using GDScript, I found this to be a fun way to practice using C++.
 
 
 # Resources:
@@ -58,8 +62,7 @@ My initial approach was to first create a version of this project using GDScript
 
 However, once I became more familiar with C++ GDNative programming, I sometimes skipped the GDScript step and coded directly in C++, using the Godot engine code and Godot documentation (among other resources) as references.
 
-[Notes to self:]
-Next, work on having the player get deleted when hit by a projectile. (You can use the enemy's projectile code for this purpose, of course.) You'll need to have the projectile get fired far enough from the player that the player won't get deleted by its own projectile. (Alternatively, make the enemy bullet a different class than the player bullet.)
+In order to share the project on GitHub, I simply opened my project folder within Visual Studio Code and used the Git extension to push my changes to my project page (https://github.com/kburchfiel/godot_demo_3d_gdnative_cpp_project).
 
-
+There are plenty of ways to improve this project, but I'd also like to spend some time with Unreal Engine so that I can see which engine I prefer.
 

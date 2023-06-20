@@ -27,7 +27,6 @@ collision_mask = 2
 monitorable = false
 
 [node name="CollisionShape" type="CollisionShape" parent="ProjectileDetector"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.218227, 0 )
 shape = SubResource( 2 )
 
 [node name="ShootTimer" type="Timer" parent="."]
