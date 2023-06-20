@@ -16,6 +16,7 @@ void Enemy3D::_register_methods() {
     register_method("_ready", &Enemy3D::_ready);
     register_method("enemy_shoot", &Enemy3D::enemy_shoot);
     godot::register_method("_on_ProjectileDetector_body_entered", &Enemy3D::_on_ProjectileDetector_body_entered);
+    godot::register_method("_on_ShootTimer_timeout", &Enemy3D::_on_ShootTimer_timeout);
     godot::register_property("enemy_speed", &Enemy3D::enemy_speed, (real_t)5.0);
     godot::register_property("enemy_fall_acceleration", &Enemy3D::enemy_fall_acceleration, (real_t)75.0);
     godot::register_property("enemy_jump_impulse", &Enemy3D::enemy_jump_impulse, (real_t)40.0);
@@ -43,6 +44,7 @@ void Enemy3D::_ready() {
     _collision_shape = get_node<godot::CollisionShape>("CollisionShape");
     _spatial = get_node<godot::Spatial>("Spatial");
     //_area = get_node<godot::Area>("Area");
+    _shoot_timer = get_node<godot::Timer>("ShootTimer");
 }
 
 //The following function is based on the on_Player_body_entered function 
@@ -50,11 +52,13 @@ void Enemy3D::_ready() {
 // and on the _on_MobDetector_body_entered(_body) function within
 // the Your First 3D Game tutorial (https://docs.godotengine.org/en/stable/getting_started/first_3d_game/07.killing_player.html ).
 // I also needed to connect the body_entered signal of the Area component of my Enemy3D 
-// scene to this function (see the Your First 3D Game tutorial for an example of this process).
+// node within the Enemy scene to this function (see the Your First 3D Game tutorial,
+// linked to above, for an example of this process). I named this Area component
+// 'ProjectileDetector.'
 //The use of godot::Node* body was based on the on_Player_body_entered 
 // code and on https://docs.godotengine.org/en/3.1/classes/class_area.html?highlight=area#area .
 void Enemy3D::_on_ProjectileDetector_body_entered(godot::Node* _body) {
-    Godot::print("_on_ProjectileDetector_body_entered called. Collided with:");
+    Godot::print("_on_ProjectileDetector_body_entered called for enemy. Collided with:");
     Godot::print(_body->get_name()); // Found get_name at:
     // https://docs.godotengine.org/en/stable/classes/class_node.html
     queue_free(); // Destroys the enemy instead of simply hiding it.
@@ -68,8 +72,15 @@ void Enemy3D::enemy_shoot() {
     // This function spawns a projectile, then sets its rotation and translation
     // equal to that of the enemy3d instance. This allows the projectile
     // to be fired in the direction the enemy is facing.
+    //Thefunction is based in part on the bullet code within the 'Obtaining
+    // information' section in the Using
+    // 3D Transforms documentation page (link:
+    // https://docs.godotengine.org/en/stable/tutorials/3d/using_transforms.html#obtaining-information )
     //Godot::print("Main test point 5");
     godot::Node* new_projectile = projectile_scene->instance();
+    //Note: In order for the above line to work (without crashing the game), you'll need to create 
+    // a projectile_scene property and then link your Projectile.tscn file to it within the Godot editor.
+    // Otherwise, Godot won't know what to load and the game will stop, possibly without any error message.
     //godot::KinematicBody* projectile_item = projectile->get_node<godot::KinematicBody>("KinematicBody");
     godot::Transform enemy_transform = get_transform();
     //godot::Vector3 player_rotation = _player3d->get_rotation();
@@ -100,6 +111,19 @@ void Enemy3D::enemy_shoot() {
 }
 
 
+void Enemy3D::_on_ShootTimer_timeout() {
+    enemy_shoot();
+}
+// Previousy, I had the enemy shoot on every frame by including enemy_shoot() inside a _process()
+// function. However, that made the game a bit trickier to win! Therefore, I instead created a 
+// timer (ShootTimer) within my Godot project and instructed the game to call enemy_shoot() only
+// when that timer runs out. By adjusting the timer's Wait Time setting (within its Inspector menu), 
+// I can make the game relatively easier or harder.
+// I connected this function to the ShootTimer I created within Godot by going to the Node section
+// of the ShootTimer, right_clicking on the 'timeout() signal and clicking 'connect', and then
+// connecting my Enemy3D script to that signal. _on_ShootTimer_timeout was already present
+// within the Receiver Method option, so I didn't need to update it there.
+
 
 void Enemy3D::_physics_process(float delta) {
     // Unlike the player code, this function will cause the enemy to move and rotate in the absence
@@ -119,5 +143,6 @@ void Enemy3D::_physics_process(float delta) {
 }
 
 void Enemy3D::_process() {
-    enemy_shoot();
+    // enemy_shoot(); # I used to have the enemy shoot on every frame,
+    // but this made the game a bit harder to beat!
 }

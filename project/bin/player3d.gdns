@@ -3,7 +3,6 @@
 [ext_resource path="res://bin/demo3d.gdnlib" type="GDNativeLibrary" id=1]
 
 [resource]
-
 resource_name = "player3d"
 class_name = "Player3D"
 library = ExtResource( 1 )

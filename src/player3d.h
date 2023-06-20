@@ -17,9 +17,10 @@
 // Link: https://docs.godotengine.org/en/stable/getting_started/first_2d_game/03.coding_the_player.html
 #include <CollisionShape.hpp> // Located at godot-cpp\include\gen
 #include <Input.hpp>
+#include <Area.hpp> // Needed to include this so that Godot recognized godot::Area as valid
 #include <PackedScene.hpp> // From 
 // https://docs.godotengine.org/en/stable/getting_started/first_2d_game/05.the_main_game_scene.html
-//#include "projectile.h"
+#include "projectile.h"
 
 
 
@@ -41,14 +42,21 @@ namespace godot {
         real_t fall_acceleration = 75;
         real_t jump_impulse = 40;
         real_t player_rotation_speed = 1.0;
+        real_t projectile_distance_from_player = 5.0;
+        godot::Ref<godot::PackedScene> projectile_scene;
 
-        Player3D(); //These were present in the GDNative tutorial but not in the
+        Player3D(); // These were present in the GDNative tutorial but not in the
         // C++ code shown in the Your First 2D Game tutorial. However, removing them produced an
         // error message, so I added them back in.
         ~Player3D();
 
+
         void _init(); // our initializer called by Godot
 
+
+        // Don't forget to add the following methods to the register_methods() component
+        // of your player3d.cpp script. Otherwise, you'll likely end up with a 'Method not found'
+        // error within the Godot console.
         void _ready(); // From 'Coding the Player' section of Your First 2D Game tutorial.
         // See https://docs.godotengine.org/en/stable/getting_started/first_2d_game/03.coding_the_player.html
 
@@ -57,6 +65,8 @@ namespace godot {
 
         void _physics_process(float delta); // My project uses _physics_process
         //for the kinematic body, so I replaced _process with _physics_process here.
+
+        void _on_ProjectileDetector_body_entered(godot::Node* _body);
 
         static void _register_methods();
     };

@@ -17,9 +17,10 @@
 #include <Input.hpp>
 #include <PackedScene.hpp> // From 
 // https://docs.godotengine.org/en/stable/getting_started/first_2d_game/05.the_main_game_scene.html
-#include <Area.hpp> // Needed to include this so that Godot recognized godot::Area as valid
-//#include "projectile.h"
+#include <Area.hpp> 
 #include "projectile.h"
+#include <Timer.hpp> // See https://docs.godotengine.org/en/3.5/getting_started/first_2d_game/05.the_main_game_scene.html
+
 
 
 
@@ -30,10 +31,10 @@ namespace godot {
         GODOT_CLASS(Enemy3D, KinematicBody)
 
         // godot::KinematicBody* _kinematic_body;
-        //godot::Input* _input; // from 'Coding the Player' section of the Your First 2D Game Tutorial
-        godot::CollisionShape* _collision_shape; // Also from that section of the tutorial (but with the 2D removed)
+        godot::CollisionShape* _collision_shape;
         godot::Spatial* _spatial;
         //godot::Area* _area;
+        godot::Timer* _shoot_timer;
         
 
 
@@ -43,6 +44,7 @@ namespace godot {
         real_t enemy_fall_acceleration = 75;
         real_t enemy_jump_impulse = 40;
         real_t enemy_rotation_speed = 1.0;
+        int shoot_rate = 0;
 
         Enemy3D(); //These were present in the GDNative tutorial but not in the
         // C++ code shown in the Your First 2D Game tutorial. However, removing them produced an
@@ -54,15 +56,16 @@ namespace godot {
         void _ready(); // From 'Coding the Player' section of Your First 2D Game tutorial.
         // See https://docs.godotengine.org/en/stable/getting_started/first_2d_game/03.coding_the_enemy.html
 
-        void enemy_shoot(); // Based on:
-        // https://docs.godotengine.org/en/3.5/tutorials/physics/using_kinematic_body_2d.html
+        void enemy_shoot();
 
         void _physics_process(float delta); // My project uses _physics_process
         //for the kinematic body, so I replaced _process with _physics_process here.
 
-        void _process(); 
+        void _process();
 
         void _on_ProjectileDetector_body_entered(godot::Node* _body);
+
+        void _on_ShootTimer_timeout();
 
         static void _register_methods();
     };

@@ -46,8 +46,8 @@ namespace godot {
 		void _init() {}
 		void _ready();
 		void _process();
-		void shoot();
-		void enemy_shoot();
+		//void shoot();
+		//void enemy_shoot();
 		static void _register_methods();
 
 	};

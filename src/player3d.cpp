@@ -16,12 +16,18 @@ void Player3D::_register_methods() {
     register_method("_ready", &Player3D::_ready);
     // The following items are based on the register_methods function within:
     // https://github.com/godotengine/gdnative-demos/blob/master/cpp/dodge_the_creeps/src/player.cpp
-    // These lines allow us to modify the specified properties within the Godot editor itself.
+    godot::register_method("_on_ProjectileDetector_body_entered", &Player3D::_on_ProjectileDetector_body_entered);
+    register_method("shoot", &Player3D::shoot);
+    // The following lines allow us to modify the specified properties within the Godot editor itself.
     godot::register_property("speed", &Player3D::speed, (real_t)5.0);
+    godot::register_property("projectile_distance_from_player", &Player3D::projectile_distance_from_player, (real_t)5.0);
     godot::register_property("fall_acceleration", &Player3D::fall_acceleration, (real_t)75.0);
     godot::register_property("jump_impulse", &Player3D::jump_impulse, (real_t)40.0);
-    godot::register_property("player_rotation_speed", &Player3D::player_rotation_speed, (real_t)1.0);
-    //godot::register_property("projectile_scene", &Player3D::projectile_scene, (godot::Ref<godot::PackedScene>)nullptr);
+    godot::register_property("player_rotation_speed", &Player3D::player_rotation_speed, (real_t)1.2);
+    godot::register_property("projectile_scene", &Player3D::projectile_scene, (godot::Ref<godot::PackedScene>)nullptr);
+    //Godot::print("Main test point 1d");
+    godot::register_signal<Player3D>("hit_by_projectile", godot::Dictionary()); // Based on the player.cpp code
+    //within Godot's Your First 2D Game tutorial
 
 
 
@@ -85,12 +91,69 @@ void Player3D::_ready() {
 //
 //}
 
+//The following function is based on the corresponding function within enemy3d.cpp.
+void Player3D::_on_ProjectileDetector_body_entered(godot::Node* _body) {
+    Godot::print("_on_ProjectileDetector_body_entered called for player. Collided with:");
+    Godot::print(_body->get_name()); // Found get_name at:
+    // https://docs.godotengine.org/en/stable/classes/class_node.html
+    queue_free(); // Destroys the player instead of simply hiding it.
+    Godot::print("Player got destroyed.");
+    emit_signal("hit_by_projectile");
+    //_collision_shape->set_deferred("disabled", true);
+}
+
+
+void Player3D::shoot() {
+    // This function is based on the enemy_shoot() function
+    // within enemy3d.cpp.
+    Godot::print("Test Point B");
+    godot::Node* new_projectile = projectile_scene->instance();
+    godot::Transform player_transform = get_transform();
+    //If we were accessing the player3d object from main(),
+    // we'd need to use _player3d->get_transform(), but since
+    // we're already within the Player3D code, we can simply
+    // use get_transform().
+    //godot::Vector3 player_rotation = _player3d->get_rotation();
+    Godot::print("Player transform:");
+    Godot::print(player_transform);
+    godot::Transform projectile_transform = player_transform;
+    projectile_transform = projectile_transform.translated(godot::Vector3(0, 0, projectile_distance_from_player));
+    // Increase the z value if needed to prevent your player from getting hit by its own projectile.
+    Godot::print("projectile_transform:");
+    Godot::print(projectile_transform);
+
+    new_projectile->set("transform", projectile_transform);
+    // The above line is based on the operations on mob performed
+    // within the _on_MobTimer_timeout() function within main.cpp of the GDNative/C++
+    // version of the Your First 2D Game tutorial. Link:
+    // https://docs.godotengine.org/en/stable/getting_started/first_2d_game/05.the_main_game_scene.html
+    // set() belongs to the Object class. See
+    // https://docs.godotengine.org/en/3.5/classes/class_object.html#id4
+    //add_child(new_projectile); // Would cause the player's movement to influence the projectiles' movement
+    get_parent()->add_child(new_projectile); // Allows the player and projectiles to move independently
+    // 
+    // 
+
+}
+
+
+
+
+
 void Player3D::_physics_process(float delta) {
     // Godot::print("Test point 3");
     // I used both the 'Your First 2D Game' C++ code 
     // (https://docs.godotengine.org/en/stable/getting_started/first_2d_game/03.coding_the_player.html ) 
     // and the GDScript code provided in the 'Your First 3D Game'
     // tutorial to create this C++ code.
+
+    if (_input->is_action_just_pressed("shoot")) {
+        Godot::print("Test Point A");
+        shoot();
+        //is_action_just_pressed will only fire one projectile per keypress. See
+        // https://docs.godotengine.org/en/stable/classes/class_input.html#class-input-method-is-action-just-pressed
+    }
+
 
     godot::Vector3 velocity(0, 0, 0); // Similar code appeared within
     // the first line of Player::process within the Your First 2D Game

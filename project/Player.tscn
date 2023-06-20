@@ -1,14 +1,17 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://bin/player3d.gdns" type="Script" id=1]
 [ext_resource path="res://art/player_model.glb" type="PackedScene" id=2]
 
 [sub_resource type="BoxShape" id=1]
 
+[sub_resource type="BoxShape" id=2]
+
 [node name="Player3D" type="KinematicBody"]
 collision_mask = 4
 script = ExtResource( 1 )
 speed = 20.0
+projectile_distance_from_player = 2.0
 fall_acceleration = 400.0
 jump_impulse = 400.0
 
@@ -20,3 +23,14 @@ shape = SubResource( 1 )
 [node name="player_model" parent="Spatial" instance=ExtResource( 2 )]
 
 [node name="player_model" parent="Spatial/player_model" instance=ExtResource( 2 )]
+
+[node name="ProjectileDetector" type="Area" parent="."]
+collision_layer = 2
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape" type="CollisionShape" parent="ProjectileDetector"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.329198, 0 )
+shape = SubResource( 2 )
+
+[connection signal="body_entered" from="ProjectileDetector" to="." method="_on_ProjectileDetector_body_entered"]
