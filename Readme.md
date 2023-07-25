@@ -14,6 +14,7 @@ Note that this project is based on the 3.5 release of Godot, as a stable release
 
 Although it would have been faster to create this game using GDScript, I found this to be a fun way to practice using C++.
 
+(You can find a blog post I wrote on this program [here](https://kburchfiel3.wordpress.com/2023/07/25/using-c-to-create-a-simple-3d-game-in-godot/). 
 
 # Resources:
 
