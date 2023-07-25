@@ -1,4 +1,4 @@
-# Godot C++ 3D Demo Project (Using Godot 3.5 and GDNative)
+# Cube Combat: My Godot C++ 3D Demo Project (Using Godot 3.5 and GDNative)
 
 ![](https://raw.githubusercontent.com/kburchfiel/godot_demo_3d_gdnative_cpp_project/master/project_images/winning_game.gif)
 
@@ -64,5 +64,4 @@ However, once I became more familiar with C++ GDNative programming, I sometimes 
 
 In order to share the project on GitHub, I simply opened my project folder within Visual Studio Code and used the Git extension to push my changes to my project page (https://github.com/kburchfiel/godot_demo_3d_gdnative_cpp_project).
 
-There are plenty of ways to improve this project, but I'd also like to spend some time with Unreal Engine so that I can see which engine I prefer.
-
+There are plenty of ways to improve this project, but now that I've created a working concept, I'd like to spend some time with Unreal Engine so that I can determine which engine I'd like to place most of my focus on in the future.
